@@ -1,4 +1,6 @@
 #include "Board.h"
+#include "Includes.h"
+#include "Vector2.h"
 
 void init_board(Board* b) {
 	// Empty cells
@@ -46,4 +48,21 @@ void print_board(const Board* b, short _size) {
 		std::cout << i + 1;
 		std::cout << std::endl;
 	}
+}
+
+bool has_piece(const Board* b, int x, int y) {
+	return b->cells[x][y] != EMPTY_CELL;
+}
+
+bool in_bounds(int x, int y) {
+	return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
+}
+
+Vector2 read_position() {
+	Vector2 pos;
+	std::cout << "Enter row and column: ";
+	std::cin >> pos.x >> pos.y;
+	pos.x--;
+	pos.y--;
+	return pos;
 }
