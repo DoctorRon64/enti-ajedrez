@@ -1,4 +1,5 @@
 #pragma once
+#include "Vector2.h"
 #include <ctype.h>
 
 enum PieceType {
@@ -14,6 +15,7 @@ enum PieceType {
 struct Piece {
 	char type;
 	bool isWhite;
+	Vector2 pos;
 };
 
 PieceType get_piece_type(char p) {
