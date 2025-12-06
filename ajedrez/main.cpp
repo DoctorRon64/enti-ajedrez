@@ -9,6 +9,7 @@ int main() {
 	bool white_turn = true;
 
 	while(!game_over) {
+		system("cls");
 		print_board(board, 8);
 		std::cout << (white_turn ? "White" : "Black") << " to move." << std::endl;
 
@@ -16,11 +17,25 @@ int main() {
 
 		if(!in_bounds(from.x, from.y) || !has_piece(board, from.x, from.y)) {
 			std::cout << "Invalid piece.\n";
-			break;
+			continue;
+		}
+		else {
+			std::cout << "valid piece" << std::endl;
 		}
 	}
 
 	return 0;
+}
+
+Vector2 read_position() {
+	Vector2 pos;
+	std::cout << "Enter row: ";
+	std::cin >> pos.x;
+	std::cout << "Enter colomn: ";
+	std::cin >> pos.y;
+	pos.x--;
+	pos.y--;
+	return pos;
 }
 
 //TODO

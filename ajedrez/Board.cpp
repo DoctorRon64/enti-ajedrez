@@ -57,12 +57,3 @@ bool has_piece(const Board* b, int x, int y) {
 bool in_bounds(int x, int y) {
 	return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
 }
-
-Vector2 read_position() {
-	Vector2 pos;
-	std::cout << "Enter row and column: ";
-	std::cin >> pos.x >> pos.y;
-	pos.x--;
-	pos.y--;
-	return pos;
-}
