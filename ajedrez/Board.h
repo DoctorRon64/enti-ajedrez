@@ -1,7 +1,8 @@
 #pragma once
 #include "Includes.h"
 
-const int BOARD_SIZE = 8;
+constexpr int BOARD_SIZE = 8;
+constexpr char EMPTY_CELL = '*';
 
 struct Board {
 	char cells[BOARD_SIZE][BOARD_SIZE];
