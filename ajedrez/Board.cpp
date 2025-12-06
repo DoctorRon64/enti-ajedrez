@@ -1,6 +1,6 @@
 #include "Board.h"
-#include "Includes.h"
 #include "Vector2.h"
+#include <iostream>
 
 void init_board(Board* b) {
 	// Empty cells
