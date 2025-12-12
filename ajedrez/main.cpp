@@ -1,4 +1,7 @@
 #include "Board.h"
+#include "Input.h"
+#include "Moves.h"
+#include "Piece.h"
 #include <iostream>
 
 int main() {
@@ -43,40 +46,6 @@ int main() {
 	}
 
 	return 0;
-}
-
-Vector2 read_position() {
-	Vector2 pos;
-	std::cout << "Enter row: ";
-	std::cin >> pos.x;
-	std::cout << "Enter colomn: ";
-	std::cin >> pos.y;
-	pos.x--;
-	pos.y--;
-
-	//TODO Handle characters like [F] or [A] and stuff that dont belong to numbers
-	return pos;
-}
-
-void move_piece(Board* b, Vector2 from, Vector2 to) {
-	b->cells[to.x][to.y] = b->cells[from.x][from.y];
-	b->cells[from.x][from.y] = EMPTY_CELL;
-}
-
-bool is_king_alive(Board* b) {
-	bool king_alive = false;
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 8; j++) {
-			if(b->cells[i][j] == 'K' || b->cells[i][j] == 'k') {
-				king_alive = true;
-				return true;
-			}
-		}
-	}
-
-	if(!king_alive) {
-		return false;
-	}
 }
 
 // Check if that positon its a correct position for the selected piece we previously selected.

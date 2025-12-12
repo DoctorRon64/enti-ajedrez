@@ -124,12 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Moves.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Moves.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
