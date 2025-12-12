@@ -1,4 +1,5 @@
 #pragma once
+#include "Piece.h"
 #include "Vector2.h"
 
 constexpr int BOARD_SIZE = 8;
@@ -13,4 +14,4 @@ void print_board(const Board* b, short _size);
 
 bool in_bounds(int x, int y);
 bool has_piece(const Board* b, int x, int y);
-Vector2 read_position();
+bool is_valid_move(Board* b, Vector2 from, Vector2 to);

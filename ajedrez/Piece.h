@@ -13,7 +13,7 @@ enum PieceType {
 };
 
 struct Piece {
-	char type;
+	char visual;
 	bool isWhite;
 	Vector2 pos;
 };
