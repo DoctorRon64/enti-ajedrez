@@ -1,5 +1,4 @@
 #pragma once
-#include "Piece.h"
 #include "Vector2.h"
 
 constexpr int BOARD_SIZE = 8;
@@ -10,8 +9,9 @@ struct Board {
 };
 
 void init_board(Board* b);
-void print_board(const Board* b, short _size);
+void print_board(const Board* b, short size);
 
 bool in_bounds(int x, int y);
 bool has_piece(const Board* b, int x, int y);
-bool is_valid_move(Board* b, Vector2 from, Vector2 to);
+bool is_king_alive(const Board* b);
+void move_piece(Board* b, Vector2 from, Vector2 to);

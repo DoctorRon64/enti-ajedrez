@@ -3,12 +3,12 @@
 #include <iostream>
 
 void init_board(Board* b) {
-	// Empty cells
-	for(int i = 0; i < BOARD_SIZE; ++i)
-		for(int j = 0; j < BOARD_SIZE; ++j)
+	for(int i = 0; i < BOARD_SIZE; ++i) {
+		for(int j = 0; j < BOARD_SIZE; ++j) {
 			b->cells[i][j] = EMPTY_CELL;
+		}
+	}
 
-	// White pieces
 	b->cells[7][0] = 'R';
 	b->cells[7][1] = 'N';
 	b->cells[7][2] = 'B';
@@ -18,10 +18,10 @@ void init_board(Board* b) {
 	b->cells[7][6] = 'N';
 	b->cells[7][7] = 'R';
 
-	for(int j = 0; j < 8; j++)
+	for(int j = 0; j < 8; j++) {
 		b->cells[6][j] = 'P';
+	}
 
-	// Black pieces
 	b->cells[0][0] = 'r';
 	b->cells[0][1] = 'n';
 	b->cells[0][2] = 'b';
@@ -31,8 +31,9 @@ void init_board(Board* b) {
 	b->cells[0][6] = 'n';
 	b->cells[0][7] = 'r';
 
-	for(int j = 0; j < 8; j++)
+	for(int j = 0; j < 8; j++) {
 		b->cells[1][j] = 'p';
+	}
 }
 
 void print_board(const Board* b, short _size) {
@@ -56,4 +57,15 @@ bool has_piece(const Board* b, int x, int y) {
 
 bool in_bounds(int x, int y) {
 	return x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE;
+}
+
+bool is_king_alive(const Board* b) {
+	for(int i = 0; i < 8; i++) {
+		for(int j = 0; j < 8; j++) {
+			if(b->cells[i][j] == 'K' || b->cells[i][j] == 'k') {
+				return true;
+			}
+		}
+	}
+	return false;
 }
