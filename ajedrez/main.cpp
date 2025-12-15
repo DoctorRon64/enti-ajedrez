@@ -25,15 +25,10 @@ int main() {
 		}
 		else {
 			char piece = board->cells[from.x][from.y];
-			if(white_turn && is_black(piece)) {
+			if(white_turn && is_black(piece) || !white_turn && is_white(piece)) {
 				std::cout << "That's not your piece!\n";
 				continue;
 			}
-			if(!white_turn && is_white(piece)) {
-				std::cout << "That's not your piece!\n";
-				continue;
-			}
-
 			Vector2 to = read_position();
 			if(!in_bounds(to.x, to.y)) {
 				std::cout << "Destination out of bounds!\n";

@@ -69,3 +69,7 @@ bool is_king_alive(const Board* b) {
 	}
 	return false;
 }
+
+void move_piece(Board* b, Vector2 from, Vector2 to) {
+	//TODO
+}
