@@ -1,6 +1,5 @@
 #pragma once
 #include "Board.h"
-#include "Piece.h"
 
 bool is_valid_move(Board* b, Vector2 from, Vector2 to);
 bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white);
