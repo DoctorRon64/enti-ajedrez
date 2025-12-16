@@ -18,11 +18,11 @@ bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
-	int direction = white ? -1 : 1;
-	int start_row = white ? 6 : 1;
+	short direction = white ? -1 : 1;
+	short start_row = white ? 6 : 1;
 
-	int dx = to.x - from.x;
-	int dy = to.y - from.y;
+	short dx = to.x - from.x;
+	short dy = to.y - from.y;
 
 	char targetCell = b->cells[to.x][to.y];
 
@@ -35,7 +35,7 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 	}
 
 	if(from.x == start_row && dx == 2 * direction && dy == 0) {
-		int mid_x = from.x + direction;
+		short mid_x = from.x + direction;
 
 		if(b->cells[mid_x][from.y] == EMPTY_CELL && targetCell == EMPTY_CELL) {
 			return true;
@@ -55,20 +55,20 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
-	int dx = to.x - from.x;
-	int dy = to.y - from.y;
+	short dx = to.x - from.x;
+	short dy = to.y - from.y;
 
 	// 1. Solo recto
 	if (dx != 0 && dy != 0)
 		return false;
 
 	// 2. Dirección
-	int directX = (dx > 0) ? 1 : (dx < 0) ? -1 : 0;
-	int directY = (dy > 0) ? 1 : (dy < 0) ? -1 : 0;
+	short directX = (dx > 0) ? 1 : (dx < 0) ? -1 : 0;
+	short directY = (dy > 0) ? 1 : (dy < 0) ? -1 : 0;
 
 	// 3. Revisar camino
-	int x = from.x + directX;
-	int y = from.y + directY;
+	short x = from.x + directX;
+	short y = from.y + directY;
 
 	while (x != to.x || y != to.y) {
 		if (b->cells[x][y] != EMPTY_CELL)
