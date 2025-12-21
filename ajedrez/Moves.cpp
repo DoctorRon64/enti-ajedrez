@@ -1,3 +1,5 @@
+#define directX 1
+#define directY -1
 #include "Moves.h"
 #include "Piece.h"
 #include <cmath> //used for diagonal calc
@@ -55,33 +57,32 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
-	short dx = to.x - from.x;
-	short dy = to.y - from.y;
-
-	// 1. Solo recto
-	if (dx != 0 && dy != 0)
+	if (from.x != to.x && from.y != to.y)
 		return false;
-
-	// 2. Dirección
-	short directX = (dx > 0) ? 1 : (dx < 0) ? -1 : 0;
-	short directY = (dy > 0) ? 1 : (dy < 0) ? -1 : 0;
-
-	// 3. Revisar camino
-	short x = from.x + directX;
-	short y = from.y + directY;
-
+	short DirectX = 0;
+	short DirectY = 0;
+	if (to.x > from.x)
+		DirectX = 1;
+	else if (to.x < from.x)
+		DirectX = -1;
+	if (to.y > from.y)
+		DirectY = 1;
+	else if (to.y < from.y)
+		DirectY = -1;
+	short x = from.x + DirectX;
+	short y = from.y + DirectY;
 	while (x != to.x || y != to.y) {
 		if (b->cells[x][y] != EMPTY_CELL)
 			return false;
-		x += directX;
-		y += directY;
+		x = x + DirectX;
+		y = y + DirectY;
 	}
-
-	// 4. Destino
-	char src = b->cells[from.x][from.y];
-	char dst = b->cells[to.x][to.y];
-
-	return dst == EMPTY_CELL || is_white(dst) != is_white(src);
+	char target = b->cells[to.x][to.y];
+	if (target == EMPTY_CELL)
+		return	true;
+	if (is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
+	return false;
 }
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
