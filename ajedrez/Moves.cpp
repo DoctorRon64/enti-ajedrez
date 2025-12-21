@@ -87,7 +87,7 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
 
-
+	return false;
 }
 
 bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
@@ -122,7 +122,10 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	if (valid_bishop_move(b, from, to))
+	return true;
+	if (valid_rook_move(b, from, to))
+		return true;
 	return false;
 }
 
