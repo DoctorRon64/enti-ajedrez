@@ -86,12 +86,38 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
-	return false;
+
+
 }
 
 bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	short dx = to.x - from.x;
+	short dy = to.y - from.y;
+	if (std::abs(dx) != std::abs(dy))
+		return false;
+	short DirectX;
+	short DirectY;
+	if (dx > 0)
+		DirectX = 1;
+	else
+		DirectX = -1;
+	if (dy > 0)
+		DirectY = 1;
+	else
+		DirectY = -1;
+	short x = from.x + DirectX;
+	short y = from.y + DirectY;
+	while (x != to.x && y != to.y) {
+		if (b->cells[x][y] != EMPTY_CELL)
+			return false;
+		x = x + DirectX;
+		y = y + DirectY;
+	}
+	char target = b->cells[to.x][to.y];
+	if (target == EMPTY_CELL)
+		return true;
+	if (is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
 
