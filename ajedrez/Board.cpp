@@ -69,7 +69,16 @@ bool is_king_alive(const Board* b) {
 	}
 	return false;
 }
-
 void move_piece(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	// To check if the pieces are in bounds
+	if (!in_bounds(from.x, from.y) || !in_bounds(to.x, to.y))
+	return;
+	char piece = b->cells[from.x][from.y];
+	// If movement can't be done it returns
+	if (piece == EMPTY_CELL)
+		return;
+	// Then it updates the movement to the board and if the piece falls on top of another piece it gets captured
+	b->cells[to.x][to.y] = piece;
+	b->cells[from.x][from.y] = EMPTY_CELL;
+
 }
