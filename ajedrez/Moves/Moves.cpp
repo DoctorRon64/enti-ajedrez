@@ -1,5 +1,8 @@
-#include "Moves.h"
-#include "Piece.h"
+#define directX 1
+#define directY -1
+
+#include "../Moves/Moves.h"
+#include "../Piece/Piece.h"
 #include <cmath> //used for diagonal calc
 
 bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
@@ -18,11 +21,11 @@ bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
-	int direction = white ? -1 : 1;
-	int start_row = white ? 6 : 1;
+	short direction = white ? -1 : 1;
+	short start_row = white ? 6 : 1;
 
-	int dx = to.x - from.x;
-	int dy = to.y - from.y;
+	short dx = to.x - from.x;
+	short dy = to.y - from.y;
 
 	char targetCell = b->cells[to.x][to.y];
 
@@ -35,7 +38,7 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 	}
 
 	if(from.x == start_row && dx == 2 * direction && dy == 0) {
-		int mid_x = from.x + direction;
+		short mid_x = from.x + direction;
 
 		if(b->cells[mid_x][from.y] == EMPTY_CELL && targetCell == EMPTY_CELL) {
 			return true;
@@ -55,51 +58,131 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
-	int dx = to.x - from.x;
-	int dy = to.y - from.y;
-
-	// 1. Solo recto
-	if(dx != 0 && dy != 0)
+	// if the player tries to move in diagonal it returns
+	if(from.x != to.x && from.y != to.y)
 		return false;
-
-	// 2. Dirección
-	int directX = (dx > 0) ? 1 : (dx < 0) ? -1 : 0;
-	int directY = (dy > 0) ? 1 : (dy < 0) ? -1 : 0;
-
-	// 3. Revisar camino
-	int x = from.x + directX;
-	int y = from.y + directY;
-
+	// values for directions
+	short DirectX = 0;
+	short DirectY = 0;
+	// If the value of to.x is under from it will go +1, ifnot it will go -1 for x and y axis
+	if(to.x > from.x)
+		DirectX = 1;
+	else if(to.x < from.x)
+		DirectX = -1;
+	if(to.y > from.y)
+		DirectY = 1;
+	else if(to.y < from.y)
+		DirectY = -1;
+	// it locks de piece in the new spot after the direction is chosen
+	short x = from.x + DirectX;
+	short y = from.y + DirectY;
+	// The loop keeps going until the piece is in its valid position
 	while(x != to.x || y != to.y) {
+		// if makes ->cells to check if the piece is going through another piece, if it does it returns
 		if(b->cells[x][y] != EMPTY_CELL)
 			return false;
-		x += directX;
-		y += directY;
+		// it goes forward towards the player's position
+		x = x + DirectX;
+		y = y + DirectY;
 	}
-
-	// 4. Destino
-	char src = b->cells[from.x][from.y];
-	char dst = b->cells[to.x][to.y];
-
-	return dst == EMPTY_CELL || is_white(dst) != is_white(src);
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if(target == EMPTY_CELL)
+		return	true;
+	// it checks the piece color and which piece color is moving
+	if(is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
+	return false;
 }
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	// adding absolut values to dx and dy for knight jumps
+	short dx = std::abs(to.x - from.x);
+	short dy = std::abs(to.y - from.y);
+	// this makes that the movement of the knight is only L shaped, only letting it go 2x,1y or 1x,2y
+	if(!((dx == 2 && dy == 1) || (dx == 1 && dy == 2)))
+		return false;
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if(target == EMPTY_CELL)
+		return true;
+	// it checks the piece color and which piece color is moving
+	if(is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
 
 bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	// calcs how many squares does it move
+	short dx = to.x - from.x;
+	short dy = to.y - from.y;
+	// abs value is always the same only counting distance and makes it go in diagonal ifnot it returns, example: (5,3 -> 4,2)
+	if(std::abs(dx) != std::abs(dy))
+		return false;
+	// calcs movement direction
+	short DirectX;
+	short DirectY;
+	// show which direction is the piece moving towards to
+	if(dx > 0)
+		DirectX = 1;
+	else
+		DirectX = -1;
+	if(dy > 0)
+		DirectY = 1;
+	else
+		DirectY = -1;
+	// it locks de piece in the new spot after the direction is chosen
+	short x = from.x + DirectX;
+	short y = from.y + DirectY;
+	// The loop keeps going until the piece is in its valid position
+	while(x != to.x || y != to.y) {
+		// if makes ->cells to check if the piece is going through another piece, if it does it returns
+		if(b->cells[x][y] != EMPTY_CELL)
+			return false;
+		// it goes forward towards the plaer's position
+		x = x + DirectX;
+		y = y + DirectY;
+	}
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if(target == EMPTY_CELL)
+		return true;
+	// it checks the piece color and which piece color is moving
+	if(is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
 
 bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	// the queen moves as a bishop and a tower at the same time, so this applies that every time the queen is able to move as a bishop or a rook it is available to move
+	if(valid_bishop_move(b, from, to))
+		return true;
+	// rook variable
+	if(valid_rook_move(b, from, to))
+		return true;
 	return false;
 }
 
 bool valid_king_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	// calcs the movement with absolut values for distance making it able to go in diagonal
+	short dx = std::abs(to.x - from.x);
+	short dy = std::abs(to.y - from.y);
+	// this makes the king unable to not move when selected
+	if(dx == 0 && dy == 0)
+		return false;
+	// this makes the king unable to move more than 1 square further in any angle
+	if(dx > 1 || dy > 1)
+		return false;
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if(target == EMPTY_CELL)
+		return true;
+	// it checks the piece color and which piece color is moving
+	if(is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
