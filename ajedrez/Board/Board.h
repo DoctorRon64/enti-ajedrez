@@ -21,6 +21,7 @@ constexpr char PAWN_WHITE = 'P';
 
 struct Board {
 	char cells[BOARD_SIZE][BOARD_SIZE];
+	EnPassantInfo enPassant;
 };
 
 struct EnPassantInfo {
@@ -29,7 +30,6 @@ struct EnPassantInfo {
 	bool pawnIsWhite;
 };
 
-EnPassantInfo enPassant;
 void init_board(Board* b);
 void print_board(const Board* b, short size);
 
