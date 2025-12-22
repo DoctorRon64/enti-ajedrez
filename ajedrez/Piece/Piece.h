@@ -1,6 +1,11 @@
 #pragma once
-#include "Vector2.h"
+#include "../Utils/Vector2.h"
 #include <ctype.h>
+
+constexpr char WHITE_START = 'A';
+constexpr char WHITE_END = 'Z';
+constexpr char BLACK_START = 'a';
+constexpr char BLACK_END = 'z';
 
 enum PieceType {
 	PAWN,
