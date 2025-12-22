@@ -57,7 +57,7 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
-	// if the player tries to move the piece to the actual place it returns
+	// if the player tries to move in diagonal it returns
 	if (from.x != to.x && from.y != to.y)
 		return false;
 	// values for directions
@@ -72,7 +72,7 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 		DirectY = 1;
 	else if (to.y < from.y)
 		DirectY = -1;
-	// it locks de piece in the new spot after the direction is applied
+	// it locks de piece in the new spot after the direction is chosen
 	short x = from.x + DirectX;
 	short y = from.y + DirectY;
 	// The loop keeps going until the piece is in its valid position
@@ -101,13 +101,16 @@ bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
-	//
+	// calcs how many squares does it move
 	short dx = to.x - from.x;
 	short dy = to.y - from.y;
+	// abs value is always the same and makes it go in diagonal ifnot it returns, example: (5,3 -> 4,2)
 	if (std::abs(dx) != std::abs(dy))
 		return false;
+	// calcs movement direction
 	short DirectX;
 	short DirectY;
+	// show which direction is the piece moving towards to
 	if (dx > 0)
 		DirectX = 1;
 	else
@@ -116,6 +119,7 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 		DirectY = 1;
 	else
 		DirectY = -1;
+	// it locks de piece in the new spot after the direction is chosen
 	short x = from.x + DirectX;
 	short y = from.y + DirectY;
 	// The loop keeps going until the piece is in its valid position
@@ -139,14 +143,29 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
+	// the queen moves as a bishop and a tower at the same time, so this applies that every time the queen is able to move as a bishop or a rook it is available to move
 	if (valid_bishop_move(b, from, to))
 	return true;
+	// rook variable
 	if (valid_rook_move(b, from, to))
 		return true;
 	return false;
 }
 
 bool valid_king_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
+	short dx = std::abs (to.x - from.x);
+	short dy = std::abs (to.y - from.y);
+	if (dx == 0 && dy == 0)
+		return false;
+	if (dx > 1 || dy > 1)
+		return false;
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if (target == EMPTY_CELL)
+		return true;
+	// it checks the piece color and which piece color is moving
+	if (is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
