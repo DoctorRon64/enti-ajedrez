@@ -57,10 +57,13 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
+	// if the player tries to move the piece to the actual place it returns
 	if (from.x != to.x && from.y != to.y)
 		return false;
+	// values for directions
 	short DirectX = 0;
 	short DirectY = 0;
+	// If the value of to.x is under from it will go +1, ifnot it will go -1 for x and y axis
 	if (to.x > from.x)
 		DirectX = 1;
 	else if (to.x < from.x)
@@ -69,17 +72,24 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 		DirectY = 1;
 	else if (to.y < from.y)
 		DirectY = -1;
+	// it locks de piece in the new spot after the direction is applied
 	short x = from.x + DirectX;
 	short y = from.y + DirectY;
+	// The loop keeps going until the piece is in its valid position
 	while (x != to.x || y != to.y) {
-		if (b->cells[x][y] != EMPTY_CELL)
+	// if makes ->cells to check if the piece is going through another piece, if it does it returns
+	if (b->cells[x][y] != EMPTY_CELL)
 			return false;
+	// it goes forward towards the player's position
 		x = x + DirectX;
 		y = y + DirectY;
 	}
+	// it targets the piece inside its desired position
 	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
 	if (target == EMPTY_CELL)
 		return	true;
+	// it checks the piece color and which piece color is moving
 	if (is_white(target) != is_white(b->cells[from.x][from.y]))
 		return true;
 	return false;
@@ -91,6 +101,7 @@ bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
+	//
 	short dx = to.x - from.x;
 	short dy = to.y - from.y;
 	if (std::abs(dx) != std::abs(dy))
@@ -107,15 +118,21 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 		DirectY = -1;
 	short x = from.x + DirectX;
 	short y = from.y + DirectY;
-	while (x != to.x && y != to.y) {
+	// The loop keeps going until the piece is in its valid position
+	while (x != to.x || y != to.y) {
+		// if makes ->cells to check if the piece is going through another piece, if it does it returns
 		if (b->cells[x][y] != EMPTY_CELL)
 			return false;
+	// it goes forward towards the plaer's position
 		x = x + DirectX;
 		y = y + DirectY;
 	}
+	// it targets the piece inside its desired position
 	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
 	if (target == EMPTY_CELL)
 		return true;
+	// it checks the piece color and which piece color is moving
 	if (is_white(target) != is_white(b->cells[from.x][from.y]))
 		return true;
 	return false;
