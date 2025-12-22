@@ -1,10 +1,5 @@
-#include "Board.h"
-#include "Piece.h"
-
-constexpr char WHITE_START = 'A';
-constexpr char WHITE_END = 'Z';
-constexpr char BLACK_START = 'a';
-constexpr char BLACK_END = 'z';
+#include "../Board/Board.h"
+#include "../Piece/Piece.h"
 
 PieceType get_piece_type(char p) {
 	switch(tolower(p)) {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector2.h"
+#include "../Utils/Vector2.h"
 
 constexpr short MIN_INDEX = 0;
 constexpr short BOARD_SIZE = 8;

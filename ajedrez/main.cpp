@@ -1,7 +1,7 @@
-#include "Board.h"
-#include "Input.h"
-#include "Moves.h"
-#include "Piece.h"
+#include "Board/Board.h"
+#include "Input/Input.h"
+#include "Moves/Moves.h"
+#include "Piece/Piece.h"
 #include <iostream>
 
 int main() {

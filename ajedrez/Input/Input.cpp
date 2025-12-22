@@ -1,5 +1,6 @@
-#include "Board.h"
-#include "Input.h"
+#include "../Board/Board.h"
+#include "../Input/Input.h"
+#include "../Utils/Vector2.h"
 #include <iostream>
 #include <limits>
 
