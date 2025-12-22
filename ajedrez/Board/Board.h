@@ -14,20 +14,20 @@ constexpr char PAWN_BLACK = 'p';
 
 constexpr char ROOK_WHITE = 'R';
 constexpr char KNIGHT_WHITE = 'N';
-constexpr char BISHOP_WHITE = 'B';
+constexpr char BISHOP_WHITE = 'b';
 constexpr char QUEEN_WHITE = 'Q';
 constexpr char KING_WHITE = 'K';
 constexpr char PAWN_WHITE = 'P';
-
-struct Board {
-	char cells[BOARD_SIZE][BOARD_SIZE];
-	EnPassantInfo enPassant;
-};
 
 struct EnPassantInfo {
 	bool valid = false;
 	Vector2 pawnPos;
 	bool pawnIsWhite;
+};
+
+struct Board {
+	char cells[BOARD_SIZE][BOARD_SIZE];
+	EnPassantInfo enPassant;
 };
 
 void init_board(Board* b);
