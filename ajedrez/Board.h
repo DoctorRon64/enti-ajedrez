@@ -1,8 +1,23 @@
 #pragma once
 #include "Vector2.h"
 
-constexpr int BOARD_SIZE = 8;
+constexpr short MIN_INDEX = 0;
+constexpr short BOARD_SIZE = 8;
 constexpr char EMPTY_CELL = '*';
+
+constexpr char ROOK_BLACK = 'r';
+constexpr char KNIGHT_BLACK = 'n';
+constexpr char BISHOP_BLACK = 'b';
+constexpr char QUEEN_BLACK = 'q';
+constexpr char KING_BLACK = 'k';
+constexpr char PAWN_BLACK = 'p';
+
+constexpr char ROOK_WHITE = 'R';
+constexpr char KNIGHT_WHITE = 'N';
+constexpr char BISHOP_WHITE = 'B';
+constexpr char QUEEN_WHITE = 'Q';
+constexpr char KING_WHITE = 'K';
+constexpr char PAWN_WHITE = 'P';
 
 struct Board {
 	char cells[BOARD_SIZE][BOARD_SIZE];
