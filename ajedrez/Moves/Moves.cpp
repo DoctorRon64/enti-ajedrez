@@ -29,29 +29,36 @@ bool valid_pawn_move(const Board* b, Vector2 from, Vector2 to, bool white) {
 
 	char targetCell = b->cells[to.x][to.y];
 
-	if(dx == direction && dy == 0) {
-		if(targetCell == EMPTY_CELL) {
-			return true;
-		}
+	// Normal forward move
+	if(dx == direction && dy == 0 && targetCell == EMPTY_CELL)
+		return true;
 
-		return false;
-	}
-
+	// Double move from starting row
 	if(from.x == start_row && dx == 2 * direction && dy == 0) {
 		short mid_x = from.x + direction;
-
-		if(b->cells[mid_x][from.y] == EMPTY_CELL && targetCell == EMPTY_CELL) {
+		if(b->cells[mid_x][from.y] == EMPTY_CELL &&
+		   targetCell == EMPTY_CELL)
 			return true;
-		}
-
-		return false;
 	}
 
+	// Normal diagonal capture
 	if(dx == direction && std::abs(dy) == 1) {
-		if(targetCell != EMPTY_CELL && is_white(targetCell) != white)
+		if(targetCell != EMPTY_CELL &&
+		   is_white(targetCell) != white)
 			return true;
+	}
 
-		return false;
+	// En passant (validation ONLY)
+	if(b->enPassant.valid &&
+	   dx == direction &&
+	   std::abs(dy) == 1 &&
+	   targetCell == EMPTY_CELL) {
+		Vector2 ep = b->enPassant.pawnPos;
+
+		if(ep.x == from.x &&
+		   ep.y == to.y &&
+		   b->enPassant.pawnIsWhite != white)
+			return true;
 	}
 
 	return false;
