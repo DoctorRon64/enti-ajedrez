@@ -45,6 +45,10 @@ int main() {
 				white_turn = !white_turn;
 			}
 		}
+		else {
+			std::cout << "Invalid move.\n";
+			system("pause"); // Waits for user input so they can read the message
+		}
 	}
 
 	return 0;
