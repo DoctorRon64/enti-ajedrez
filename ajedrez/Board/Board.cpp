@@ -74,3 +74,18 @@ void move_piece(Board* b, Vector2 from, Vector2 to) {
 	b->cells[to.x][to.y] = b->cells[from.x][from.y];
 	b->cells[from.x][from.y] = EMPTY_CELL;
 }
+
+void move_piece(Board* b, Vector2 from, Vector2 to) {
+	char piece = b->cells[from.x][from.y];
+
+	b->cells[to.x][to.y] = piece;
+	b->cells[from.x][from.y] = EMPTY_CELL;
+
+	// Pawn promotion
+	if(piece == PAWN_WHITE && to.x == MIN_INDEX) {
+		b->cells[to.x][to.y] = QUEEN_WHITE;
+	}
+	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1) {
+		b->cells[to.x][to.y] = QUEEN_BLACK;
+	}
+}
