@@ -61,17 +61,6 @@ bool in_bounds(short x, short y) {
 	return x >= MIN_INDEX && x < BOARD_SIZE && y >= MIN_INDEX && y < BOARD_SIZE;
 }
 
-bool is_king_alive(const Board* b) {
-	for(short i = 0; i < BOARD_SIZE; i++) {
-		for(short j = 0; j < BOARD_SIZE; j++) {
-			if(b->cells[i][j] == KING_WHITE || b->cells[i][j] == KING_BLACK) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
 bool is_in_check(const Board* b, bool whiteKing) {
 	Vector2 kingPos;
 
@@ -102,41 +91,6 @@ bool is_in_check(const Board* b, bool whiteKing) {
 	}
 
 	return false;
-}
-bool is_checkmate(const Board* b, bool whiteKing) {
-	if(!is_in_check(b, whiteKing))
-		return false;
-
-	// Try all king moves
-	Vector2 kingPos;
-	for(short i = 0; i < BOARD_SIZE; i++) {
-		for(short j = 0; j < BOARD_SIZE; j++) {
-			char c = b->cells[i][j];
-			if((whiteKing && c == KING_WHITE) ||
-			   (!whiteKing && c == KING_BLACK)) {
-				kingPos = { i, j };
-			}
-		}
-	}
-
-	for(short dx = -1; dx <= 1; dx++) {
-		for(short dy = -1; dy <= 1; dy++) {
-			if(dx == 0 && dy == 0) continue;
-
-			Vector2 to = { kingPos.x + dx, kingPos.y + dy };
-			if(!in_bounds(to.x, to.y)) continue;
-
-			Board temp = *b;
-			if(is_valid_move(&temp, kingPos, to)) {
-				move_piece(&temp, kingPos, to);
-				if(!is_in_check(&temp, whiteKing)) {
-					return false;
-				}
-			}
-		}
-	}
-
-	return true;
 }
 
 void move_piece(Board* b, Vector2 from, Vector2 to) {
@@ -180,4 +134,60 @@ void move_piece(Board* b, Vector2 from, Vector2 to) {
 	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1) {
 		b->cells[to.x][to.y] = QUEEN_BLACK;
 	}
+}
+
+static std::vector<Vector2> get_attackers(const Board* b, bool whiteKing) {
+	std::vector<Vector2> attackers;
+	Vector2 kingPos;
+	for(short i = 0; i < BOARD_SIZE; i++)
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char c = b->cells[i][j];
+			if((whiteKing && c == KING_WHITE) || (!whiteKing && c == KING_BLACK))
+				kingPos = { i, j };
+		}
+
+	for(short i = 0; i < BOARD_SIZE; i++)
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char c = b->cells[i][j];
+			if(c == EMPTY_CELL) continue;
+			if(is_white(c) != whiteKing) {
+				Vector2 from = { i, j };
+				if(is_valid_move(b, from, kingPos))
+					attackers.push_back(from);
+			}
+		}
+	// Return all enemy pieces attacking the king
+	return attackers;
+}
+
+static bool can_any_move_rescue(const Board* b, bool whiteKing) {
+	for(short i = 0; i < BOARD_SIZE; i++) {
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char piece = b->cells[i][j];
+			if(piece == EMPTY_CELL || is_white(piece) != whiteKing) continue;
+
+			Vector2 from = { i, j };
+
+			for(short x = 0; x < BOARD_SIZE; x++) {
+				for(short y = 0; y < BOARD_SIZE; y++) {
+					Vector2 to = { x, y };
+					if(!is_valid_move(b, from, to)) continue;
+
+					Board temp = *b;
+					move_piece(&temp, from, to);
+
+					if(!is_in_check(&temp, whiteKing))
+						return true;
+				}
+			}
+		}
+	}
+
+	// Return true if any friendly piece can save the king
+	return false;
+}
+
+bool is_checkmate(const Board* b, bool whiteKing) {
+	if(!is_in_check(b, whiteKing)) return false;
+	return !can_any_move_rescue(b, whiteKing);
 }

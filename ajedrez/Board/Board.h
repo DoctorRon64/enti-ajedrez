@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utils/Vector2.h"
+#include <vector>
 
 constexpr short MIN_INDEX = 0;
 constexpr short BOARD_SIZE = 8;
@@ -35,7 +36,9 @@ void print_board(const Board* b, short size);
 
 bool in_bounds(short x, short y);
 bool has_piece(const Board* b, short x, short y);
-bool is_king_alive(const Board* b);
-bool is_in_check(const Board* b, bool whiteKing);
-bool is_checkmate(const Board* b, bool whiteKing);
 void move_piece(Board* b, Vector2 from, Vector2 to);
+bool is_in_check(const Board* b, bool whiteKing);
+
+std::vector<Vector2> get_attackers(const Board* b, bool whiteKing);
+bool can_any_move_rescue(const Board* b, bool whiteKing);
+bool is_checkmate(const Board* b, bool whiteKing);
