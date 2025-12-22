@@ -14,7 +14,7 @@ constexpr char PAWN_BLACK = 'p';
 
 constexpr char ROOK_WHITE = 'R';
 constexpr char KNIGHT_WHITE = 'N';
-constexpr char BISHOP_WHITE = 'b';
+constexpr char BISHOP_WHITE = 'B';
 constexpr char QUEEN_WHITE = 'Q';
 constexpr char KING_WHITE = 'K';
 constexpr char PAWN_WHITE = 'P';
