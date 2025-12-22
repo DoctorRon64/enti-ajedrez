@@ -1,4 +1,5 @@
 #include "../Board/Board.h"
+#include "../Piece/Piece.h"
 #include "../Utils/Vector2.h"
 #include <iostream>
 
@@ -71,21 +72,43 @@ bool is_king_alive(const Board* b) {
 }
 
 void move_piece(Board* b, Vector2 from, Vector2 to) {
-	b->cells[to.x][to.y] = b->cells[from.x][from.y];
-	b->cells[from.x][from.y] = EMPTY_CELL;
-}
-
-void move_piece(Board* b, Vector2 from, Vector2 to) {
 	char piece = b->cells[from.x][from.y];
 
+	if((piece == PAWN_WHITE || piece == PAWN_BLACK) && b->enPassant.valid) {
+		short direction = (piece == PAWN_WHITE) ? -1 : 1;
+
+		//Enpassant capture (Before reset)
+		if(to.x == from.x + direction
+			&& to.y == b->enPassant.pawnPos.y
+			&& from.x == b->enPassant.pawnPos.x
+			&& b->enPassant.pawnIsWhite != is_white(piece)) {
+			b->cells[b->enPassant.pawnPos.x]
+				[b->enPassant.pawnPos.y] = EMPTY_CELL;
+		}
+	}
+
+	// Reset en passant by default
+	b->enPassant.valid = false;
+
+	// Detect pawn double move
+	if(piece == PAWN_WHITE && from.x == 6 && to.x == 4) {
+		b->enPassant.valid = true;
+		b->enPassant.pawnPos = to;
+		b->enPassant.pawnIsWhite = true;
+	}
+	else if(piece == PAWN_BLACK && from.x == 1 && to.x == 3) {
+		b->enPassant.valid = true;
+		b->enPassant.pawnPos = to;
+		b->enPassant.pawnIsWhite = false;
+	}
+
+	// Move piece
 	b->cells[to.x][to.y] = piece;
 	b->cells[from.x][from.y] = EMPTY_CELL;
 
 	// Pawn promotion
-	if(piece == PAWN_WHITE && to.x == MIN_INDEX) {
+	if(piece == PAWN_WHITE && to.x == 0)
 		b->cells[to.x][to.y] = QUEEN_WHITE;
-	}
-	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1) {
+	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1)
 		b->cells[to.x][to.y] = QUEEN_BLACK;
-	}
 }
