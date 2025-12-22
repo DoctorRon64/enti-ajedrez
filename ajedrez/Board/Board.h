@@ -14,7 +14,7 @@ constexpr char PAWN_BLACK = 'p';
 
 constexpr char ROOK_WHITE = 'R';
 constexpr char KNIGHT_WHITE = 'N';
-constexpr char BISHOP_WHITE = 'b';
+constexpr char BISHOP_WHITE = 'B';
 constexpr char QUEEN_WHITE = 'Q';
 constexpr char KING_WHITE = 'K';
 constexpr char PAWN_WHITE = 'P';
@@ -36,4 +36,6 @@ void print_board(const Board* b, short size);
 bool in_bounds(int x, int y);
 bool has_piece(const Board* b, int x, int y);
 bool is_king_alive(const Board* b);
+bool is_in_check(const Board* b, bool whiteKing);
+bool is_checkmate(const Board* b, bool whiteKing);
 void move_piece(Board* b, Vector2 from, Vector2 to);

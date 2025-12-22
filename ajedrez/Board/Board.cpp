@@ -1,4 +1,5 @@
 #include "../Board/Board.h"
+#include "../Moves/Moves.h"
 #include "../Piece/Piece.h"
 #include "../Utils/Vector2.h"
 #include <iostream>
@@ -69,6 +70,72 @@ bool is_king_alive(const Board* b) {
 		}
 	}
 	return false;
+}
+
+bool is_in_check(const Board* b, bool whiteKing) {
+	Vector2 kingPos;
+
+	// Find king
+	for(short i = 0; i < BOARD_SIZE; i++) {
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char c = b->cells[i][j];
+			if((whiteKing && c == KING_WHITE) ||
+			   (!whiteKing && c == KING_BLACK)) {
+				kingPos = { i, j };
+			}
+		}
+	}
+
+	// Can any enemy piece capture the king?
+	for(short i = 0; i < BOARD_SIZE; i++) {
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char c = b->cells[i][j];
+			if(c == EMPTY_CELL) continue;
+
+			if(is_white(c) != whiteKing) {
+				Vector2 from = { i, j };
+				if(is_valid_move(b, from, kingPos))
+					return true;
+			}
+		}
+	}
+
+	return false;
+}
+bool is_checkmate(const Board* b, bool whiteKing) {
+	if(!is_in_check(b, whiteKing))
+		return false;
+
+	// Try all king moves
+	Vector2 kingPos;
+	for(short i = 0; i < BOARD_SIZE; i++) {
+		for(short j = 0; j < BOARD_SIZE; j++) {
+			char c = b->cells[i][j];
+			if((whiteKing && c == KING_WHITE) ||
+			   (!whiteKing && c == KING_BLACK)) {
+				kingPos = { i, j };
+			}
+		}
+	}
+
+	for(short dx = -1; dx <= 1; dx++) {
+		for(short dy = -1; dy <= 1; dy++) {
+			if(dx == 0 && dy == 0) continue;
+
+			Vector2 to = { kingPos.x + dx, kingPos.y + dy };
+			if(!in_bounds(to.x, to.y)) continue;
+
+			Board temp = *b;
+			if(is_valid_move(&temp, kingPos, to)) {
+				move_piece(&temp, kingPos, to);
+				if(!is_in_check(&temp, whiteKing)) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 void move_piece(Board* b, Vector2 from, Vector2 to) {
