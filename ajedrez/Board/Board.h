@@ -33,8 +33,8 @@ struct Board {
 void init_board(Board* b);
 void print_board(const Board* b, short size);
 
-bool in_bounds(int x, int y);
-bool has_piece(const Board* b, int x, int y);
+bool in_bounds(short x, short y);
+bool has_piece(const Board* b, short x, short y);
 bool is_king_alive(const Board* b);
 bool is_in_check(const Board* b, bool whiteKing);
 bool is_checkmate(const Board* b, bool whiteKing);

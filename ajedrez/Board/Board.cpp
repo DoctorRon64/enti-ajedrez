@@ -5,8 +5,8 @@
 #include <iostream>
 
 void init_board(Board* b) {
-	for(int i = 0; i < BOARD_SIZE; ++i) {
-		for(int j = 0; j < BOARD_SIZE; ++j) {
+	for(short i = 0; i < BOARD_SIZE; ++i) {
+		for(short j = 0; j < BOARD_SIZE; ++j) {
 			b->cells[i][j] = EMPTY_CELL;
 		}
 	}
@@ -20,7 +20,7 @@ void init_board(Board* b) {
 	b->cells[7][6] = KNIGHT_WHITE;
 	b->cells[7][7] = ROOK_WHITE;
 
-	for(int j = 0; j < 8; j++) {
+	for(short j = 0; j < 8; j++) {
 		b->cells[6][j] = PAWN_WHITE;
 	}
 
@@ -33,19 +33,19 @@ void init_board(Board* b) {
 	b->cells[0][6] = KNIGHT_BLACK;
 	b->cells[0][7] = ROOK_BLACK;
 
-	for(int j = 0; j < 8; j++) {
+	for(short j = 0; j < 8; j++) {
 		b->cells[1][j] = PAWN_BLACK;
 	}
 }
 
 void print_board(const Board* b, short _size) {
-	for(int i = 0; i < _size; i++) {
+	for(short i = 0; i < _size; i++) {
 		std::cout << i + 1;
 		std::cout << ' ';
 	}
 	std::cout << std::endl;
-	for(int i = 0; i < _size; ++i) {
-		for(int j = 0; j < _size; ++j) {
+	for(short i = 0; i < _size; ++i) {
+		for(short j = 0; j < _size; ++j) {
 			std::cout << b->cells[i][j] << ' ';
 		}
 		std::cout << i + 1;
@@ -53,17 +53,17 @@ void print_board(const Board* b, short _size) {
 	}
 }
 
-bool has_piece(const Board* b, int x, int y) {
+bool has_piece(const Board* b, short x, short y) {
 	return b->cells[x][y] != EMPTY_CELL;
 }
 
-bool in_bounds(int x, int y) {
+bool in_bounds(short x, short y) {
 	return x >= MIN_INDEX && x < BOARD_SIZE && y >= MIN_INDEX && y < BOARD_SIZE;
 }
 
 bool is_king_alive(const Board* b) {
-	for(int i = 0; i < 8; i++) {
-		for(int j = 0; j < 8; j++) {
+	for(short i = 0; i < 8; i++) {
+		for(short j = 0; j < 8; j++) {
 			if(b->cells[i][j] == KING_WHITE || b->cells[i][j] == KING_BLACK) {
 				return true;
 			}
@@ -94,8 +94,9 @@ bool is_in_check(const Board* b, bool whiteKing) {
 
 			if(is_white(c) != whiteKing) {
 				Vector2 from = { i, j };
-				if(is_valid_move(b, from, kingPos))
+				if(is_valid_move(b, from, kingPos)) {
 					return true;
+				}
 			}
 		}
 	}
@@ -149,8 +150,7 @@ void move_piece(Board* b, Vector2 from, Vector2 to) {
 			&& to.y == b->enPassant.pawnPos.y
 			&& from.x == b->enPassant.pawnPos.x
 			&& b->enPassant.pawnIsWhite != is_white(piece)) {
-			b->cells[b->enPassant.pawnPos.x]
-				[b->enPassant.pawnPos.y] = EMPTY_CELL;
+			b->cells[b->enPassant.pawnPos.x][b->enPassant.pawnPos.y] = EMPTY_CELL;
 		}
 	}
 
@@ -174,8 +174,10 @@ void move_piece(Board* b, Vector2 from, Vector2 to) {
 	b->cells[from.x][from.y] = EMPTY_CELL;
 
 	// Pawn promotion
-	if(piece == PAWN_WHITE && to.x == 0)
+	if(piece == PAWN_WHITE && to.x == 0) {
 		b->cells[to.x][to.y] = QUEEN_WHITE;
-	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1)
+	}
+	else if(piece == PAWN_BLACK && to.x == BOARD_SIZE - 1) {
 		b->cells[to.x][to.y] = QUEEN_BLACK;
+	}
 }
