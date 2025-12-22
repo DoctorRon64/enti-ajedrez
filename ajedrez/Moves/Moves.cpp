@@ -103,7 +103,7 @@ bool valid_bishop_move(const Board* b, Vector2 from, Vector2 to) {
 	short x = from.x + stepX;
 	short y = from.y + stepY;
 
-	while(x != to.x && y != to.y) {
+	while(x != to.x || y != to.y) {
 		if(b->cells[x][y] != EMPTY_CELL)
 			return false;
 		x += stepX;
