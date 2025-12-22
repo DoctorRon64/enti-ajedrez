@@ -37,12 +37,9 @@ int main() {
 		if(is_valid_move(&board, from, to)) {
 			move_piece(&board, from, to);
 
-			if(!is_king_alive(&board)) {
+			if(is_checkmate(&board, !white_turn)) {
 				game_over = true;
-				std::cout << (white_turn ? "White" : "Black") << " wins!\n";
-			}
-			else {
-				white_turn = !white_turn;
+				std::cout << "Checkmate! " << (white_turn ? "White" : "Black") << " wins!\n";
 			}
 		}
 	}

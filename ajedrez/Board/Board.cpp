@@ -1,8 +1,8 @@
 #include "../Board/Board.h"
+#include "../Moves/Moves.h"
 #include "../Piece/Piece.h"
 #include "../Utils/Vector2.h"
 #include <iostream>
-#include "../Moves/Moves.h"
 
 void init_board(Board* b) {
 	for(int i = 0; i < BOARD_SIZE; ++i) {
