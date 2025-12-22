@@ -1,20 +1,6 @@
-#include "Board.h"
-#include "Vector2.h"
+#include "../Board/Board.h"
+#include "../Utils/Vector2.h"
 #include <iostream>
-
-constexpr char ROOK_BLACK = 'r';
-constexpr char KNIGHT_BLACK = 'n';
-constexpr char BISHOP_BLACK = 'b';
-constexpr char QUEEN_BLACK = 'q';
-constexpr char KING_BLACK = 'k';
-constexpr char PAWN_BLACK = 'p';
-
-constexpr char ROOK_WHITE = 'R';
-constexpr char KNIGHT_WHITE = 'N';
-constexpr char BISHOP_WHITE = 'B';
-constexpr char QUEEN_WHITE = 'Q';
-constexpr char KING_WHITE = 'K';
-constexpr char PAWN_WHITE = 'P';
 
 void init_board(Board* b) {
 	for(int i = 0; i < BOARD_SIZE; ++i) {
@@ -29,7 +15,7 @@ void init_board(Board* b) {
 	b->cells[7][3] = QUEEN_WHITE;
 	b->cells[7][4] = KING_WHITE;
 	b->cells[7][5] = BISHOP_WHITE;
-	b->cells[7][6] = KING_WHITE;
+	b->cells[7][6] = KNIGHT_WHITE;
 	b->cells[7][7] = ROOK_WHITE;
 
 	for(int j = 0; j < 8; j++) {
@@ -76,7 +62,7 @@ bool in_bounds(int x, int y) {
 bool is_king_alive(const Board* b) {
 	for(int i = 0; i < 8; i++) {
 		for(int j = 0; j < 8; j++) {
-			if(b->cells[i][j] == KNIGHT_WHITE || b->cells[i][j] == KNIGHT_BLACK) {
+			if(b->cells[i][j] == KING_WHITE || b->cells[i][j] == KING_BLACK) {
 				return true;
 			}
 		}

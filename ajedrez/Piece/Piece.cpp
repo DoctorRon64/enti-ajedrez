@@ -1,11 +1,6 @@
 #include "Board.h"
 #include "Piece.h"
 
-constexpr char WHITE_START = 'A';
-constexpr char WHITE_END = 'Z';
-constexpr char BLACK_START = 'a';
-constexpr char BLACK_END = 'z';
-
 PieceType get_piece_type(char p) {
 	switch(tolower(p)) {
 		case PAWN_BLACK: return PAWN;

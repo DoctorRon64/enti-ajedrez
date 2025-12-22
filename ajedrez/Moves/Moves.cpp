@@ -3,11 +3,11 @@
 #include <cmath> //used for diagonal calc
 
 bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
-	char target = b->cells[to.x][to.y];
-	PieceType type = get_piece_type(target);
+	char piece = b->cells[from.x][from.y];
+	PieceType type = get_piece_type(piece);
 
 	switch(type) {
-		case PAWN: return valid_pawn_move(b, from, to, is_white(target));
+		case PAWN: return valid_pawn_move(b, from, to, is_white(piece));
 		case ROOK:   return valid_rook_move(b, from, to);
 		case KNIGHT: return valid_knight_move(b, from, to);
 		case BISHOP: return valid_bishop_move(b, from, to);
@@ -16,16 +16,6 @@ bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
 		default:     return false;
 	}
 }
-
-//bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
-//	char p = b->cells[from.x][from.y];
-//	PieceType t = get_piece_type(p);
-//
-//	switch(t) {
-//		case PAWN: return valid_pawn_move(b, from, to, is_white(p));
-//		default:   return false;
-//	}
-//}
 
 bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 	int direction = white ? -1 : 1;
@@ -69,7 +59,7 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 	int dy = to.y - from.y;
 
 	// 1. Solo recto
-	if (dx != 0 && dy != 0)
+	if(dx != 0 && dy != 0)
 		return false;
 
 	// 2. Dirección
@@ -80,8 +70,8 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 	int x = from.x + directX;
 	int y = from.y + directY;
 
-	while (x != to.x || y != to.y) {
-		if (b->cells[x][y] != EMPTY_CELL)
+	while(x != to.x || y != to.y) {
+		if(b->cells[x][y] != EMPTY_CELL)
 			return false;
 		x += directX;
 		y += directY;
