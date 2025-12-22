@@ -41,6 +41,9 @@ int main() {
 				game_over = true;
 				std::cout << "Checkmate! " << (white_turn ? "White" : "Black") << " wins!\n";
 			}
+			else {
+				white_turn = !white_turn;
+			}
 		}
 	}
 
