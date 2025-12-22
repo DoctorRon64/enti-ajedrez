@@ -96,7 +96,20 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
-
+	// adding absolut values to dx and dy for knight jumps
+	short dx = std::abs(to.x - from.x);
+	short dy = std::abs(to.y - from.y);
+	// this makes that the movement of the knight is only L shaped, only letting it go 2x,1y or 1x,2y
+	if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2)))
+		return false;
+	// it targets the piece inside its desired position
+	char target = b->cells[to.x][to.y];
+	// it checks if there isn't any piece on the position
+	if (target == EMPTY_CELL)
+		return true;
+	// it checks the piece color and which piece color is moving
+	if (is_white(target) != is_white(b->cells[from.x][from.y]))
+		return true;
 	return false;
 }
 
@@ -104,7 +117,7 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 	// calcs how many squares does it move
 	short dx = to.x - from.x;
 	short dy = to.y - from.y;
-	// abs value is always the same and makes it go in diagonal ifnot it returns, example: (5,3 -> 4,2)
+	// abs value is always the same only counting distance and makes it go in diagonal ifnot it returns, example: (5,3 -> 4,2)
 	if (std::abs(dx) != std::abs(dy))
 		return false;
 	// calcs movement direction
@@ -153,10 +166,13 @@ bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
 }
 
 bool valid_king_move(Board* b, Vector2 from, Vector2 to) {
+	// calcs the movement with absolut values for distance making it able to go in diagonal
 	short dx = std::abs (to.x - from.x);
 	short dy = std::abs (to.y - from.y);
+	// this makes the king unable to not move when selected
 	if (dx == 0 && dy == 0)
 		return false;
+	// this makes the king unable to move more than 1 square further in any angle
 	if (dx > 1 || dy > 1)
 		return false;
 	// it targets the piece inside its desired position
