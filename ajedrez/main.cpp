@@ -12,7 +12,7 @@ int main() {
 	bool white_turn = true;
 
 	while(!game_over) {
-		system("cls");
+		system("cls"); //windows only, use "clear" for linux & macOS
 		print_board(&board, BOARD_SIZE);
 		std::cout << (white_turn ? "White" : "Black") << " to move.\n";
 

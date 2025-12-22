@@ -20,7 +20,7 @@ void init_board(Board* b) {
 	b->cells[7][6] = KNIGHT_WHITE;
 	b->cells[7][7] = ROOK_WHITE;
 
-	for(short j = 0; j < 8; j++) {
+	for(short j = 0; j < BOARD_SIZE; j++) {
 		b->cells[6][j] = PAWN_WHITE;
 	}
 
@@ -33,7 +33,7 @@ void init_board(Board* b) {
 	b->cells[0][6] = KNIGHT_BLACK;
 	b->cells[0][7] = ROOK_BLACK;
 
-	for(short j = 0; j < 8; j++) {
+	for(short j = 0; j < BOARD_SIZE; j++) {
 		b->cells[1][j] = PAWN_BLACK;
 	}
 }
@@ -62,8 +62,8 @@ bool in_bounds(short x, short y) {
 }
 
 bool is_king_alive(const Board* b) {
-	for(short i = 0; i < 8; i++) {
-		for(short j = 0; j < 8; j++) {
+	for(short i = 0; i < BOARD_SIZE; i++) {
+		for(short j = 0; j < BOARD_SIZE; j++) {
 			if(b->cells[i][j] == KING_WHITE || b->cells[i][j] == KING_BLACK) {
 				return true;
 			}

@@ -98,8 +98,9 @@ bool valid_rook_move(const Board* b, Vector2 from, Vector2 to) {
 	if(target == EMPTY_CELL)
 		return	true;
 	// it checks the piece color and which piece color is moving
-	if(is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
+	if(target != EMPTY_CELL &&
+	   is_white(target) == is_white(b->cells[from.x][from.y]))
+		return false;
 	return false;
 }
 
@@ -116,8 +117,9 @@ bool valid_knight_move(const Board* b, Vector2 from, Vector2 to) {
 	if(target == EMPTY_CELL)
 		return true;
 	// it checks the piece color and which piece color is moving
-	if(is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
+	if(target != EMPTY_CELL &&
+	   is_white(target) == is_white(b->cells[from.x][from.y]))
+		return false;
 	return false;
 }
 
@@ -158,8 +160,9 @@ bool valid_bishop_move(const Board* b, Vector2 from, Vector2 to) {
 	if(target == EMPTY_CELL)
 		return true;
 	// it checks the piece color and which piece color is moving
-	if(is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
+	if(target != EMPTY_CELL &&
+	   is_white(target) == is_white(b->cells[from.x][from.y]))
+		return false;
 	return false;
 }
 
@@ -189,7 +192,8 @@ bool valid_king_move(const Board* b, Vector2 from, Vector2 to) {
 	if(target == EMPTY_CELL)
 		return true;
 	// it checks the piece color and which piece color is moving
-	if(is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
+	if(target != EMPTY_CELL && is_white(target) == is_white(b->cells[from.x][from.y]))
+		return false;
+
 	return false;
 }
