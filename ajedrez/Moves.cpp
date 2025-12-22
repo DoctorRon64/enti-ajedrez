@@ -65,8 +65,33 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 }
 
 bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
-	//TODO
-	return false;
+	int dx = to.x - from.x;
+	int dy = to.y - from.y;
+
+	// 1. Solo recto
+	if (dx != 0 && dy != 0)
+		return false;
+
+	// 2. Dirección
+	int directX = (dx > 0) ? 1 : (dx < 0) ? -1 : 0;
+	int directY = (dy > 0) ? 1 : (dy < 0) ? -1 : 0;
+
+	// 3. Revisar camino
+	int x = from.x + directX;
+	int y = from.y + directY;
+
+	while (x != to.x || y != to.y) {
+		if (b->cells[x][y] != EMPTY_CELL)
+			return false;
+		x += directX;
+		y += directY;
+	}
+
+	// 4. Destino
+	char src = b->cells[from.x][from.y];
+	char dst = b->cells[to.x][to.y];
+
+	return dst == EMPTY_CELL || is_white(dst) != is_white(src);
 }
 
 bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
