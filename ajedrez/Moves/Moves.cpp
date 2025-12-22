@@ -5,7 +5,7 @@
 #include "../Piece/Piece.h"
 #include <cmath> //used for diagonal calc
 
-bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
+bool is_valid_move(const Board* b, Vector2 from, Vector2 to) {
 	char piece = b->cells[from.x][from.y];
 	PieceType type = get_piece_type(piece);
 
@@ -20,7 +20,7 @@ bool is_valid_move(Board* b, Vector2 from, Vector2 to) {
 	}
 }
 
-bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
+bool valid_pawn_move(const Board* b, Vector2 from, Vector2 to, bool white) {
 	short direction = white ? -1 : 1;
 	short start_row = white ? 6 : 1;
 
@@ -57,7 +57,7 @@ bool valid_pawn_move(Board* b, Vector2 from, Vector2 to, bool white) {
 	return false;
 }
 
-bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
+bool valid_rook_move(const Board* b, Vector2 from, Vector2 to) {
 	// if the player tries to move in diagonal it returns
 	if(from.x != to.x && from.y != to.y)
 		return false;
@@ -96,7 +96,7 @@ bool valid_rook_move(Board* b, Vector2 from, Vector2 to) {
 	return false;
 }
 
-bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
+bool valid_knight_move(const Board* b, Vector2 from, Vector2 to) {
 	// adding absolut values to dx and dy for knight jumps
 	short dx = std::abs(to.x - from.x);
 	short dy = std::abs(to.y - from.y);
@@ -114,7 +114,7 @@ bool valid_knight_move(Board* b, Vector2 from, Vector2 to) {
 	return false;
 }
 
-bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
+bool valid_bishop_move(const Board* b, Vector2 from, Vector2 to) {
 	// calcs how many squares does it move
 	short dx = to.x - from.x;
 	short dy = to.y - from.y;
@@ -156,7 +156,7 @@ bool valid_bishop_move(Board* b, Vector2 from, Vector2 to) {
 	return false;
 }
 
-bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
+bool valid_queen_move(const Board* b, Vector2 from, Vector2 to) {
 	// the queen moves as a bishop and a tower at the same time, so this applies that every time the queen is able to move as a bishop or a rook it is available to move
 	if(valid_bishop_move(b, from, to))
 		return true;
@@ -166,7 +166,7 @@ bool valid_queen_move(Board* b, Vector2 from, Vector2 to) {
 	return false;
 }
 
-bool valid_king_move(Board* b, Vector2 from, Vector2 to) {
+bool valid_king_move(const Board* b, Vector2 from, Vector2 to) {
 	// calcs the movement with absolut values for distance making it able to go in diagonal
 	short dx = std::abs(to.x - from.x);
 	short dy = std::abs(to.y - from.y);

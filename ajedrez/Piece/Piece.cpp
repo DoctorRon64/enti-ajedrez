@@ -1,5 +1,5 @@
-#include "Board.h"
-#include "Piece.h"
+#include "../Board/Board.h"
+#include "../Piece/Piece.h"
 
 PieceType get_piece_type(char p) {
 	switch(tolower(p)) {
