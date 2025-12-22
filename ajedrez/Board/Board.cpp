@@ -1,5 +1,6 @@
+#include "../Board/Board.h"
+#include "../Piece/Piece.h"
 #include "../Utils/Vector2.h"
-#include "Board.h"
 #include <iostream>
 
 void init_board(Board* b) {
@@ -72,6 +73,19 @@ bool is_king_alive(const Board* b) {
 
 void move_piece(Board* b, Vector2 from, Vector2 to) {
 	char piece = b->cells[from.x][from.y];
+
+	if((piece == PAWN_WHITE || piece == PAWN_BLACK) && b->enPassant.valid) {
+		short direction = (piece == PAWN_WHITE) ? -1 : 1;
+
+		//Enpassant capture (Before reset)
+		if(to.x == from.x + direction
+			&& to.y == b->enPassant.pawnPos.y
+			&& from.x == b->enPassant.pawnPos.x
+			&& b->enPassant.pawnIsWhite != is_white(piece)) {
+			b->cells[b->enPassant.pawnPos.x]
+				[b->enPassant.pawnPos.y] = EMPTY_CELL;
+		}
+	}
 
 	// Reset en passant by default
 	b->enPassant.valid = false;
