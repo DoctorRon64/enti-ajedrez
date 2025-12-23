@@ -2,10 +2,12 @@
 #include "../Utils/Vector2.h"
 #include <vector>
 
+// Board constants
 constexpr short MIN_INDEX = 0;
 constexpr short BOARD_SIZE = 8;
 constexpr char EMPTY_CELL = '*';
 
+// Black pieces
 constexpr char ROOK_BLACK = 'r';
 constexpr char KNIGHT_BLACK = 'n';
 constexpr char BISHOP_BLACK = 'b';
@@ -13,6 +15,7 @@ constexpr char QUEEN_BLACK = 'q';
 constexpr char KING_BLACK = 'k';
 constexpr char PAWN_BLACK = 'p';
 
+// White pieces
 constexpr char ROOK_WHITE = 'R';
 constexpr char KNIGHT_WHITE = 'N';
 constexpr char BISHOP_WHITE = 'B';
@@ -20,25 +23,30 @@ constexpr char QUEEN_WHITE = 'Q';
 constexpr char KING_WHITE = 'K';
 constexpr char PAWN_WHITE = 'P';
 
+// En passant information
 struct EnPassantInfo {
 	bool valid = false;
 	Vector2 pawnPos;
 	bool pawnIsWhite;
 };
 
+// Board structure
 struct Board {
 	char cells[BOARD_SIZE][BOARD_SIZE];
 	EnPassantInfo enPassant;
 };
 
+// Board operations
 void init_board(Board* b);
 void print_board(const Board* b, short size);
 
 bool in_bounds(short x, short y);
 bool has_piece(const Board* b, short x, short y);
-void move_piece(Board* b, Vector2 from, Vector2 to);
-bool is_in_check(const Board* b, bool whiteKing);
 
+Vector2 find_king(const Board* b, bool whiteKing);
+bool is_in_check(const Board* b, bool whiteKing);
 std::vector<Vector2> get_attackers(const Board* b, bool whiteKing);
+
+void move_piece(Board* b, Vector2 from, Vector2 to);
 bool can_any_move_rescue(const Board* b, bool whiteKing);
 bool is_checkmate(const Board* b, bool whiteKing);

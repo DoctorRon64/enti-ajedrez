@@ -70,10 +70,7 @@ bool valid_rook_move(const Board* b, Vector2 from, Vector2 to) {
 	}
 
 	char target = b->cells[to.x][to.y];
-	if(target == EMPTY_CELL || is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
-
-	return false;
+	return target == EMPTY_CELL || is_white(target) != is_white(b->cells[from.x][from.y]);
 }
 
 bool valid_knight_move(const Board* b, Vector2 from, Vector2 to) {
@@ -111,10 +108,7 @@ bool valid_bishop_move(const Board* b, Vector2 from, Vector2 to) {
 	}
 
 	char target = b->cells[to.x][to.y];
-	if(target == EMPTY_CELL || is_white(target) != is_white(b->cells[from.x][from.y]))
-		return true;
-
-	return false;
+	return target == EMPTY_CELL || is_white(target) != is_white(b->cells[from.x][from.y]);
 }
 
 bool valid_queen_move(const Board* b, Vector2 from, Vector2 to) {
