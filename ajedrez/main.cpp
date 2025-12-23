@@ -31,6 +31,17 @@ int main() {
 			std::cout << "That's not your piece!\n";
 			continue;
 		}
+		Vector2 whiteKing = find_king(&board, true);
+		Vector2 blackKing = find_king(&board, false);
+		// it checks if the king gets captured and if it does the game ends
+		if (whiteKing.x == -1 || blackKing.x == -1) {
+			game_over = true;
+			print_board(&board, BOARD_SIZE);
+			std::cout << (whiteKing.x == -1 ?
+				"White king captured. Black wins!\n" :
+				"Black king captured. White wins!\n");
+			system("pause");
+		}	
 
 		Vector2 to = move.to;
 		if(!in_bounds(to.x, to.y)) {
@@ -47,6 +58,7 @@ int main() {
 				std::cout << "Checkmate! " << (white_turn ? "White" : "Black") << " wins!\n";
 				system("pause"); // pause so the player sees the message
 				continue; // loop will exit naturally since game_over == true
+				
 			}
 			else if(!can_any_move_rescue(&board, !white_turn) && !is_in_check(&board, !white_turn)) {
 				game_over = true;
@@ -60,9 +72,10 @@ int main() {
 					print_board(&board, BOARD_SIZE);
 					std::cout << (white_turn ? "Black" : "White") << " is in check!\n";
 					system("pause"); // just a warning, game continues
+					white_turn = !white_turn; // only switch turns if the game continues
+					continue;
 				}
-
-				white_turn = !white_turn; // only switch turns if the game continues
+				white_turn = !white_turn; 
 			}
 		}
 		else {
