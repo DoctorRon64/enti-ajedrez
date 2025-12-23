@@ -1,5 +1,6 @@
 #include "../Board/Board.h"
 #include "../Piece/Piece.h"
+#include <ctype.h> // For tolower() used in get_piece_type()
 
 PieceType get_piece_type(char p) {
 	switch(tolower(p)) {

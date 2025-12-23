@@ -61,26 +61,30 @@ bool in_bounds(short x, short y) {
 	return x >= MIN_INDEX && x < BOARD_SIZE && y >= MIN_INDEX && y < BOARD_SIZE;
 }
 
-bool is_in_check(const Board* b, bool whiteKing) {
-	Vector2 kingPos;
-
-	// Find king
+Vector2 find_king(const Board* b, bool whiteKing) {
 	for(short i = 0; i < BOARD_SIZE; i++) {
 		for(short j = 0; j < BOARD_SIZE; j++) {
 			char c = b->cells[i][j];
-			if((whiteKing && c == KING_WHITE) ||
-			   (!whiteKing && c == KING_BLACK)) {
-				kingPos = { i, j };
+			if((whiteKing && c == KING_WHITE) || (!whiteKing && c == KING_BLACK)) {
+				return { i, j };
 			}
 		}
 	}
+	return { -1, -1 }; // king not found
+}
 
-	// Can any enemy piece capture the king?
+bool is_in_check(const Board* b, bool whiteKing) {
+	Vector2 kingPos = find_king(b, whiteKing);
+	if(kingPos.x == -1) {
+		std::cerr << "Error: King not found on board!\n";
+		return false;
+	}
+
+	// Check if any enemy piece can capture the king
 	for(short i = 0; i < BOARD_SIZE; i++) {
 		for(short j = 0; j < BOARD_SIZE; j++) {
 			char c = b->cells[i][j];
 			if(c == EMPTY_CELL) continue;
-
 			if(is_white(c) != whiteKing) {
 				Vector2 from = { i, j };
 				if(is_valid_move(b, from, kingPos)) {
@@ -136,7 +140,7 @@ void move_piece(Board* b, Vector2 from, Vector2 to) {
 	}
 }
 
-static std::vector<Vector2> get_attackers(const Board* b, bool whiteKing) {
+std::vector<Vector2> get_attackers(const Board* b, bool whiteKing) {
 	std::vector<Vector2> attackers;
 	Vector2 kingPos;
 	for(short i = 0; i < BOARD_SIZE; i++)
@@ -160,7 +164,7 @@ static std::vector<Vector2> get_attackers(const Board* b, bool whiteKing) {
 	return attackers;
 }
 
-static bool can_any_move_rescue(const Board* b, bool whiteKing) {
+bool can_any_move_rescue(const Board* b, bool whiteKing) {
 	for(short i = 0; i < BOARD_SIZE; i++) {
 		for(short j = 0; j < BOARD_SIZE; j++) {
 			char piece = b->cells[i][j];
