@@ -1,4 +1,4 @@
-# Chess Game in C++
+ï»¿# Chess Game in C++
 
 ## Project Overview
 This is a console-based Chess game implemented in C++. The game allows two players to play chess with full move validation, check, checkmate, stalemate detection, and pawn promotion. The board is displayed in the console, and players enter their moves via standard input.
@@ -11,8 +11,8 @@ This is a console-based Chess game implemented in C++. The game allows two playe
 All chess pieces move according to standard rules. Moves are validated before they are executed.
 - **Implemented in:** `Moves/Moves.cpp` and `Moves/Moves.h`
 - **Functions:**  
-  - `is_valid_move()` – General move validation dispatcher.  
-  - `valid_pawn_move()`, `valid_rook_move()`, `valid_knight_move()`, `valid_bishop_move()`, `valid_queen_move()`, `valid_king_move()` – Specific piece validation functions.
+  - `is_valid_move()` â€“ General move validation dispatcher.  
+  - `valid_pawn_move()`, `valid_rook_move()`, `valid_knight_move()`, `valid_bishop_move()`, `valid_queen_move()`, `valid_king_move()` â€“ Specific piece validation functions.
 
 ---
 
@@ -20,9 +20,9 @@ All chess pieces move according to standard rules. Moves are validated before th
 The game detects if a king is in check or if the game has reached checkmate or stalemate.
 - **Implemented in:** `Board/Board.cpp` and `Board/Board.h`
 - **Functions:**  
-  - `is_in_check()` – Detects if the current player's king is under attack.  
-  - `is_checkmate()` – Determines if the game is in checkmate.  
-  - `can_any_move_rescue()` – Determines if a king can escape check.  
+  - `is_in_check()` â€“ Detects if the current player's king is under attack.  
+  - `is_checkmate()` â€“ Determines if the game is in checkmate.  
+  - `can_any_move_rescue()` â€“ Determines if a king can escape check.  
 
 ---
 

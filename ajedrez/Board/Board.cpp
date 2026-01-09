@@ -76,8 +76,7 @@ Vector2 find_king(const Board* b, bool whiteKing) {
 bool is_in_check(const Board* b, bool whiteKing) {
 	Vector2 kingPos = find_king(b, whiteKing);
 	if(kingPos.x == -1) {
-		std::cerr << "Error: King not found on board!\n";
-		return false;
+		return true; // when king is captured
 	}
 
 	// Check if any enemy piece can capture the king
